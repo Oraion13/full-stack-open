@@ -48,7 +48,14 @@ const App = () => {
     }
   ]
 
-  return <Course course={courses} />
+  console.log("Stack", courses[0]);
+  console.log("node.js", courses[1]);
+  return (
+  <>
+  <h1>Web development curriculum</h1>
+  <Course courses={courses} />
+  </>
+  )
 }
 
 export default App
