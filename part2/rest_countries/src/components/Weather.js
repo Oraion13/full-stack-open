@@ -7,7 +7,6 @@ const Weather = ({ capital }) => {
   console.log("capital", capital);
 
   useEffect(() => {
-    //const baseUrl = `https://api.openweathermap.org/data/2.5/weather?q=Berlin&APPID=dbbc8027e91116db62dbdfc71159d8f5`;
     const first = "https://api.openweathermap.org/data/2.5/weather?q=";
     const last = "&APPID=";
     const api_key = process.env.REACT_APP_API_KEY;
