@@ -1,21 +1,22 @@
 import Note from "./Note";
 
-const Persons = ({ persons, filterName }) => {
+const Persons = ({ persons, filterName, deleteContact }) => {
   return (
-    <ul style={{ listStyleType: "none" }}>
+    <table>
       {persons.map((person) => {
         if (person["name"].toLowerCase().includes(filterName.toLowerCase())) {
           return (
             <Note
-              key={person["id"]}
+              id={person["id"]}
               name={person["name"]}
               number={person["number"]}
+              deleteContact={deleteContact}
             />
           );
         }
         return "";
       })}
-    </ul>
+    </table>
   );
 };
 

@@ -7,15 +7,25 @@ const PersonForms = ({
 }) => {
   return (
     <form onSubmit={addToDirectory}>
-      <div>
-        name: <input value={newName} onChange={addNewName} />
-      </div>
-      <div>
-        number: <input value={newNumber} onChange={addNewNumber} />
-      </div>
-      <div>
-        <button type="submit">add</button>
-      </div>
+      <table>
+        <tr>
+          <td>name:</td>{" "}
+          <td>
+            <input value={newName} onChange={addNewName} />
+          </td>
+        </tr>
+        <tr>
+          <td>number:</td>{" "}
+          <td>
+            <input value={newNumber} onChange={addNewNumber} />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button type="submit">add</button>
+          </td>
+        </tr>
+      </table>
     </form>
   );
 };

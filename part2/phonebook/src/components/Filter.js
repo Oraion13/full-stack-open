@@ -2,7 +2,7 @@ const Filter = ({ filterName, searchName }) => {
   return (
     <>
       <form>
-        filter show with: <input value={filterName} onChange={searchName} />
+        filter shown with: <input value={filterName} onChange={searchName} />
       </form>
     </>
   );
