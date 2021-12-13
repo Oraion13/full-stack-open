@@ -1,0 +1,59 @@
+* {
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1124&q=100');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+#root {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 13rem 30em;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(107, 107, 107, 0.75);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+#root * {
+    margin: 5px;
+}
+
+.message {
+    color: rgb(10, 185, 10);
+}
+
+div p {
+    font-size: 1.3em;
+    font-weight: 400;
+}
+
+.error {
+    color: rgb(189, 15, 15);
+}
+
+.message,
+.error {
+    background-color: rgb(204, 204, 204);
+    border: 3px solid rgb(88, 88, 88);
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+input,
+button {
+    border-radius: 0.2rem;
+    background-color: rgb(204, 204, 204);
+}
+
+button:hover {
+    background-color: rgb(75, 188, 253);
+}

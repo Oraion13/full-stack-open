@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
+import "./index.css";
 import PersonForms from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import bookService from "./services/bookService";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState();
+  const [newNumber, setNewNumber] = useState(0);
   const [filterName, setFilterName] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorClass, setErrorClass] = useState(false);
 
   //Get first response from server
   useEffect(() => {
@@ -57,11 +61,21 @@ const App = () => {
                 setPersons(responseData);
               });
             }
+            return checkContact.name;
+          })
+          .then((name) => {
+            setErrorMessage(`${name}'s number modified successfully`);
+            setErrorClass(true);
           });
       }
 
+      setTimeout(() => {
+        setErrorMessage(null);
+        setErrorClass(false);
+      }, 5000);
+
       setNewName("");
-      setNewNumber("");
+      setNewNumber(0);
 
       return;
     }
@@ -70,7 +84,19 @@ const App = () => {
     //Add new Contact
     bookService
       .addContact(newPerson)
-      .then((responseData) => setPersons(persons.concat(responseData)));
+      .then((responseData) => {
+        setPersons(persons.concat(responseData));
+        return newName
+      })
+      .then((name) => {
+        setErrorMessage(`${name} added successfully`);
+        setErrorClass(true)
+      });
+
+      setTimeout(() => {
+        setErrorMessage(null);
+        setErrorClass(false)
+      }, 5000);
 
     setNewName("");
     setNewNumber("");
@@ -86,16 +112,31 @@ const App = () => {
         if (status === 200) {
           bookService.getAll().then((responseData) => {
             setPersons(responseData);
-          });
+            return event.target.name;
+          })
+          .then(name => {
+            setErrorMessage(`${name} deleted successfully`);
+            setErrorClass(false);
+          })
         }
-      });
+      })
+      .catch(error => {
+        setErrorMessage(`Information of ${event.target.name} has already been removed from the server`);
+        setErrorClass(false);
+      })
     }
+
+    setTimeout(() => {
+      setErrorMessage(null);
+      setErrorClass(false);
+    }, 5000);
     console.log("After deletion", persons);
   };
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage} errorClass={errorClass} />
       <Filter filterName={filterName} searchName={searchName} />
       <h2>Add a new</h2>
       <PersonForms
