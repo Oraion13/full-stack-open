@@ -81,7 +81,7 @@ const App = () => {
     }
 
     const newPerson = { name: newName, number: newNumber };
-    //Add new Contact
+    //Add new Contact, promise chain
     bookService
       .addContact(newPerson)
       .then((responseData) => {
@@ -107,6 +107,7 @@ const App = () => {
     event.preventDefault();
     console.log("id", event.target.value);
 
+    //Promise chain
     if (window.confirm(`Delete ${event.target.name}?`)) {
       bookService.deleteContact(event.target.value).then((status) => {
         if (status === 200) {
