@@ -5,3 +5,4 @@ Repository created for the projects submission in FullStackOpen
 |:----:|:-----:|
 |0     |✅     |
 |1     |✅     |
+|2     |✅     |
