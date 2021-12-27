@@ -9,7 +9,7 @@ import Notification from "./components/Notification";
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState(0);
+  const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [errorClass, setErrorClass] = useState(false);
@@ -40,7 +40,20 @@ const App = () => {
   const addToDirectory = (event) => {
     event.preventDefault();
 
+    if (newName === "" || newNumber === "") {
+      setErrorMessage(`name/number field cannot be empty`);
+      setErrorClass(false);
+
+      setTimeout(() => {
+        setErrorMessage(null);
+        setErrorClass(false);
+      }, 5000);
+
+      return;
+    }
+
     const checkContact = persons.reduce((prev, current) => {
+      console.log("Checked");
       if (current["name"] === newName) {
         prev = { ...current, number: newNumber };
       }
@@ -75,7 +88,7 @@ const App = () => {
       }, 5000);
 
       setNewName("");
-      setNewNumber(0);
+      setNewNumber("");
 
       return;
     }
@@ -86,17 +99,22 @@ const App = () => {
       .addContact(newPerson)
       .then((responseData) => {
         setPersons(persons.concat(responseData));
-        return newName
+        return newName;
       })
       .then((name) => {
         setErrorMessage(`${name} added successfully`);
-        setErrorClass(true)
+        setErrorClass(true);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        setErrorMessage(error.response.data.error);
+        setErrorClass(false);
       });
 
-      setTimeout(() => {
-        setErrorMessage(null);
-        setErrorClass(false)
-      }, 5000);
+    setTimeout(() => {
+      setErrorMessage(null);
+      setErrorClass(false);
+    }, 5000);
 
     setNewName("");
     setNewNumber("");
@@ -109,22 +127,28 @@ const App = () => {
 
     //Promise chain
     if (window.confirm(`Delete ${event.target.name}?`)) {
-      bookService.deleteContact(event.target.value).then((status) => {
-        if (status === 200) {
-          bookService.getAll().then((responseData) => {
-            setPersons(responseData);
-            return event.target.name;
-          })
-          .then(name => {
-            setErrorMessage(`${name} deleted successfully`);
-            setErrorClass(false);
-          })
-        }
-      })
-      .catch(error => {
-        setErrorMessage(`Information of ${event.target.name} has already been removed from the server`);
-        setErrorClass(false);
-      })
+      bookService
+        .deleteContact(event.target.value)
+        .then((status) => {
+          if (status === 200) {
+            bookService
+              .getAll()
+              .then((responseData) => {
+                setPersons(responseData);
+                return event.target.name;
+              })
+              .then((name) => {
+                setErrorMessage(`${event.target.name} deleted successfully`);
+                setErrorClass(false);
+              });
+          }
+        })
+        .catch((error) => {
+          setErrorMessage(
+            `Information of ${event.target.name} has already been removed from the server`
+          );
+          setErrorClass(false);
+        });
     }
 
     setTimeout(() => {
