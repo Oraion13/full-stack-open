@@ -1,14 +1,54 @@
-const Login = (props) => {
+import React, { useState } from "react";
+import blogService from "../services/blogs";
+import loginService from "../services/logins";
+
+const Login = ({ setUser, setErrorMessage }) => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const addUserName = (event) => {
+    setUserName(event.target.value);
+  };
+
+  const addPassword = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+
+    try {
+      const user = await loginService.login({
+        userName,
+        password,
+      });
+
+      window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
+      blogService.setToken(user.token);
+
+      setUser(user);
+      setUserName("");
+      setPassword("");
+    } catch (exception) {
+      console.log(exception);
+      setErrorMessage("Wrong credentials");
+
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
+  };
+
   return (
     <div>
       <h2>Log in to application</h2>
-      <form onSubmit={props.handleLogin}>
+      <form onSubmit={handleLogin}>
         <label htmlFor="user">Username</label>
         <input
           type="text"
           id="user"
-          value={props.userName}
-          onChange={props.addUserName}
+          value={userName}
+          onChange={addUserName}
           name="Username"
           required
         />
@@ -16,12 +56,12 @@ const Login = (props) => {
         <input
           type="password"
           id="Password"
-          value={props.password}
-          onChange={props.addPassword}
+          value={password}
+          onChange={addPassword}
           name="Password"
           required
         />
-        <button type="submit" >Login</button>
+        <button type="submit">Login</button>
       </form>
     </div>
   );

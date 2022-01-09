@@ -1,12 +1,54 @@
-const NewBlog = (props) => {
+import React, { useState } from "react";
+
+const NewBlog = ({ setErrorMessage, blogs, setBlogs, addBlog }) => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [url, setURL] = useState("");
+
+  const addTitle = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const addAuthor = (event) => {
+    setAuthor(event.target.value);
+  };
+
+  const addURL = (event) => {
+    setURL(event.target.value);
+  };
+
+  const handleCreateBlog = async (event) => {
+    event.preventDefault();
+
+    try {
+      const newBlog = await addBlog({ title, author, url });
+
+      console.log(newBlog);
+      setBlogs(blogs.concat(newBlog));
+      setErrorMessage(`a new blog ${title} by ${author} is added`);
+      setTitle("");
+      setAuthor("");
+      setURL("");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    } catch (exception) {
+      console.log(exception);
+      setErrorMessage("cannot add blog");
+      setTimeout(() => {
+        setErrorMessage(null);
+      }, 5000);
+    }
+  };
+
   return (
-    <form onSubmit={props.handleCreateBlog}>
+    <form onSubmit={handleCreateBlog}>
       <label htmlFor="title">title</label>
       <input
         type="text"
         id="title"
-        value={props.title}
-        onChange={props.addTitle}
+        value={title}
+        onChange={addTitle}
         name="title"
         required
       />
@@ -14,8 +56,8 @@ const NewBlog = (props) => {
       <input
         type="text"
         id="author"
-        value={props.author}
-        onChange={props.addAuthor}
+        value={author}
+        onChange={addAuthor}
         name="author"
         required
       />
@@ -23,8 +65,8 @@ const NewBlog = (props) => {
       <input
         type="text"
         id="url"
-        value={props.url}
-        onChange={props.addURL}
+        value={url}
+        onChange={addURL}
         name="url"
         required
       />

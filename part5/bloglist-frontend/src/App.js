@@ -1,22 +1,16 @@
-import React, { useState, useEffect } from "react";
-import Home from "./components/Home";
+import React, { useState, useEffect, useRef } from "react";
 import Login from "./components/Login";
-import loginService from "./services/logins";
+import NewBlog from "./components/NewBlog";
+import Logout from "./components/Logout";
+import Blog from "./components/Blog";
 import blogService from "./services/blogs";
+import Togglable from "./components/Togglable";
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
-
-  // create new note
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setURL] = useState("");
-
   const [errorMessage, setErrorMessage] = useState("");
-
+  const blogFormRef = useRef();
   // get all data
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
@@ -32,121 +26,45 @@ const App = () => {
     }
   }, []);
 
-  // set username
-  const addUserName = (event) => {
-    setUserName(event.target.value);
-  };
-
-  // set password
-  const addPassword = (event) => {
-    setPassword(event.target.value);
-  };
-
-  // set new title
-  const addTitle = (event) => {
-    setTitle(event.target.value);
-  };
-
-  //set new author
-  const addAuthor = (event) => {
-    setAuthor(event.target.value);
-  };
-
-  // set new URL
-  const addURL = (event) => {
-    setURL(event.target.value);
-  };
-
-  // user login
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      const user = await loginService.login({
-        userName,
-        password,
-      });
-
-      window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
-      setUserName("");
-      setPassword("");
-    } catch (exception) {
-      console.log(exception);
-      setErrorMessage("Wrong credentials");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
-  };
-
-  // handle logout
-  const handleLogout = (event) => {
-    event.preventDefault();
-
-    if (window.confirm(`Are you sure to logout ? ${user.userName}`)) {
-      const uname = user.userName;
-
-      window.localStorage.removeItem("loggedBlogUser");
-      setUser(null);
-
-      setErrorMessage(`successfully logged out ${uname}`);
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
-  };
-
-  // handle create new blog
-  const handleCreateBlog = async (event) => {
-    event.preventDefault();
-
-    try {
-      const newBlog = await blogService.postBlog({ title, author, url });
-
-      console.log(newBlog);
-      setErrorMessage(`a new blog ${title} by ${author} is added`);
-      setTitle("");
-      setAuthor("");
-      setURL("");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    } catch (exception) {
-      console.log(exception);
-      setErrorMessage("cannot add blog");
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
-    }
+  // add new blog
+  const addBlog = async (blogObject) => {
+    const blog = await blogService.postBlog(blogObject);
+    blogFormRef.current.toggleVisibility();
+    return blog;
   };
 
   return (
     <div>
       {errorMessage}
+
       {user === null ? (
-        <Login
-          userName={userName}
-          addUserName={addUserName}
-          password={password}
-          addPassword={addPassword}
-          handleLogin={handleLogin}
-        />
+        <Togglable buttonLable="Log in">
+          <Login setUser={setUser} setErrorMessage={setErrorMessage} />
+        </Togglable>
       ) : (
-        <Home
-          blogs={blogs}
-          username={user.name}
-          handleLogout={handleLogout}
-          title={title}
-          addTitle={addTitle}
-          author={author}
-          addAuthor={addAuthor}
-          url={url}
-          addURL={addURL}
-          handleCreateBlog={handleCreateBlog}
-        />
+        <h3>{user.userName} logged in</h3>
       )}
+
+      {user !== null ? (
+        <div>
+          <Logout
+            userName={user.userName}
+            setUser={setUser}
+            setErrorMessage={setErrorMessage}
+          />
+
+          <Togglable buttonLable="Create blog" ref={blogFormRef}>
+            <NewBlog
+              setErrorMessage={setErrorMessage}
+              addBlog={addBlog}
+            />
+          </Togglable>
+        </div>
+      ) : (
+        ""
+      )}
+
+      <Blog blogs={blogs} setBlogs={setBlogs} userName={user !== null ? user.userName : ""} />
     </div>
   );
 };
