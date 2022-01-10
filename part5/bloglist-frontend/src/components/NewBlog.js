@@ -1,45 +1,44 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-const NewBlog = ({ setErrorMessage, blogs, setBlogs, addBlog }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setURL] = useState("");
+const NewBlog = ({ setErrorMessage, addBlog }) => {
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setURL] = useState('')
 
   const addTitle = (event) => {
-    setTitle(event.target.value);
-  };
+    setTitle(event.target.value)
+  }
 
   const addAuthor = (event) => {
-    setAuthor(event.target.value);
-  };
+    setAuthor(event.target.value)
+  }
 
   const addURL = (event) => {
-    setURL(event.target.value);
-  };
+    setURL(event.target.value)
+  }
 
   const handleCreateBlog = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
-      const newBlog = await addBlog({ title, author, url });
+      const newBlog = await addBlog({ title, author, url })
 
-      console.log(newBlog);
-      setBlogs(blogs.concat(newBlog));
-      setErrorMessage(`a new blog ${title} by ${author} is added`);
-      setTitle("");
-      setAuthor("");
-      setURL("");
+      console.log(newBlog)
+      setErrorMessage(`a new blog ${title} by ${author} is added`)
+      setTitle('')
+      setAuthor('')
+      setURL('')
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        setErrorMessage(null)
+      }, 5000)
     } catch (exception) {
-      console.log(exception);
-      setErrorMessage("cannot add blog");
+      console.log(exception)
+      setErrorMessage('cannot add blog')
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        setErrorMessage(null)
+      }, 5000)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleCreateBlog}>
@@ -72,7 +71,7 @@ const NewBlog = ({ setErrorMessage, blogs, setBlogs, addBlog }) => {
       />
       <button type="submit">create</button>
     </form>
-  );
-};
+  )
+}
 
-export default NewBlog;
+export default NewBlog
