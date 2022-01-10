@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import blogService from "../services/blogs";
+import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
 const Display = ({
   id,
@@ -12,37 +12,37 @@ const Display = ({
   blogUser,
   userName,
 }) => {
-  const [visible, setVisible] = useState(false);
-  const [buttonLable, setButtonLable] = useState("view");
-  const [updateLikes, setUpdateLikes] = useState(likes);
+  const [visible, setVisible] = useState(false)
+  const [buttonLable, setButtonLable] = useState('view')
+  const [updateLikes, setUpdateLikes] = useState(likes)
 
-  const showWhenVisible = { display: visible ? "" : "none" };
+  const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {
-    setVisible(!visible);
-    setButtonLable(!visible ? "hide" : "view");
-  };
+    setVisible(!visible)
+    setButtonLable(!visible ? 'hide' : 'view')
+  }
 
   const updateBlog = async () => {
-    setUpdateLikes(updateLikes + 1);
-    const blog = { likes: updateLikes + 1 };
-    const updated = await blogService.updateBlog(id, blog);
-    console.log(updated);
-  };
+    setUpdateLikes(updateLikes + 1)
+    const blog = { likes: updateLikes + 1 }
+    const updated = await blogService.updateBlog(id, blog)
+    console.log(updated)
+  }
 
   const removeBlog = async () => {
     if (window.confirm(`Remove blog ${title} by ${author}?`)) {
-      const deleted = await blogService.removeBlog(id);
+      const deleted = await blogService.removeBlog(id)
 
       if (deleted.status === 202) {
-        setBlogs(blogs.filter((blog) => blog.id !== id));
+        setBlogs(blogs.filter((blog) => blog.id !== id))
       }
     }
-  };
+  }
 
   return (
     <div>
-      {title} by {author}{" "}
+      {title} by {author}{' '}
       <button onClick={toggleVisibility}>{buttonLable}</button>
       <div style={showWhenVisible}>
         {url}
@@ -53,11 +53,11 @@ const Display = ({
         {blogUser.userName === userName ? (
           <button onClick={removeBlog}>remove</button>
         ) : (
-          ""
+          ''
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Display;
+export default Display

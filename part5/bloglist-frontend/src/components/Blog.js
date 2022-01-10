@@ -1,14 +1,16 @@
-import Display from "./Display";
+import Display from './Display'
 
-const Blog = ({ blogs, setBlogs, userName }) => {
+const Blog = ({ blogs, userName }) => {
+  blogs.sort((a, b) => {
+    return b.likes - a.likes
+  })
+
   return (
     <>
       {blogs.map((blog) => (
         <Display
           key={blog.id}
           id={blog.id}
-          blogs={blogs}
-          setBlogs={setBlogs}
           title={blog.title}
           author={blog.author}
           url={blog.url}
@@ -18,7 +20,7 @@ const Blog = ({ blogs, setBlogs, userName }) => {
         />
       ))}
     </>
-  );
-};
+  )
+}
 
-export default Blog;
+export default Blog

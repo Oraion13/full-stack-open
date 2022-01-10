@@ -1,43 +1,38 @@
-import React, { useState } from "react";
-import blogService from "../services/blogs";
-import loginService from "../services/logins";
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-const Login = ({ setUser, setErrorMessage }) => {
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({ loginUser, setErrorMessage }) => {
+  const [userName, setUserName] = useState('')
+  const [password, setPassword] = useState('')
 
   const addUserName = (event) => {
-    setUserName(event.target.value);
-  };
+    setUserName(event.target.value)
+  }
 
   const addPassword = (event) => {
-    setPassword(event.target.value);
-  };
+    setPassword(event.target.value)
+  }
 
   const handleLogin = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     try {
-      const user = await loginService.login({
+      await loginUser({
         userName,
         password,
-      });
+      })
 
-      window.localStorage.setItem("loggedBlogUser", JSON.stringify(user));
-      blogService.setToken(user.token);
-
-      setUser(user);
-      setUserName("");
-      setPassword("");
+      setUserName('')
+      setPassword('')
     } catch (exception) {
-      console.log(exception);
-      setErrorMessage("Wrong credentials");
+      console.log(exception)
+      setErrorMessage('Wrong credentials')
 
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+        setErrorMessage(null)
+      }, 5000)
     }
-  };
+  }
 
   return (
     <div>
@@ -64,7 +59,11 @@ const Login = ({ setUser, setErrorMessage }) => {
         <button type="submit">Login</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+Login.prototype = {
+  loginUser: PropTypes.func.isRequired
+}
+
+export default Login
