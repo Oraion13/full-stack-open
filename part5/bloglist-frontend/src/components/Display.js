@@ -41,7 +41,7 @@ const Display = ({
   }
 
   return (
-    <div>
+    <div className='blog'>
       {title} by {author}{' '}
       <button onClick={toggleVisibility}>{buttonLable}</button>
       <div style={showWhenVisible}>
