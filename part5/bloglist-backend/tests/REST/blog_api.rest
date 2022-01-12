@@ -1,0 +1,61 @@
+@PORT = 3001
+@baseURL = http://localhost:{{PORT}}/api
+
+# @name GET_USERS
+GET {{baseURL}}/users
+
+###
+
+# @name GET_Blogs
+GET {{baseURL}}/blogs
+
+###
+
+# @name create_user
+POST {{baseURL}}/users
+Content-Type: application/json
+
+{
+    "userName": "vicky",
+    "name": "Vignesh",
+    "password": "vignesh123"
+}
+
+###
+
+# @name login
+POST {{baseURL}}/login
+Content-Type: application/json
+
+{
+    "userName": "vicky",
+    "password": "vignesh123"
+}
+
+###
+
+# @name create_blog
+POST {{baseURL}}/blogs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InZpY2t5IiwiaWQiOiI2MWNmYzIyZGVjYjIwMDU2NTU3MGI0YTUiLCJpYXQiOjE2NDEwMzAyOTZ9.UMFAye4uB0hkXMLz3LhPpAQqE_LhqUP_Sw2WT_2dtcI
+
+{
+    "title": "React hooks",
+    "url": "https://reacthooks.com"
+}
+
+### 
+# @name delete_blog
+DELETE {{baseURL}}/blogs/61d025689114e07347c276d7
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InZpY2t5IiwiaWQiOiI2MWNmYzIyZGVjYjIwMDU2NTU3MGI0YTUiLCJpYXQiOjE2NDEwMzAyOTZ9.UMFAye4uB0hkXMLz3LhPpAQqE_LhqUP_Sw2WT_2dtcI
+
+###
+
+# @name update_blog
+PUT {{baseURL}}/blogs/61d025f4cb58c4256cde181f
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InZpY2t5IiwiaWQiOiI2MWNmYzIyZGVjYjIwMDU2NTU3MGI0YTUiLCJpYXQiOjE2NDEwMzAyOTZ9.UMFAye4uB0hkXMLz3LhPpAQqE_LhqUP_Sw2WT_2dtcI
+
+{
+    "title": "changed title for testing purpose"
+}

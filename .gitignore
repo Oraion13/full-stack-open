@@ -3,3 +3,5 @@ part4/blogList/.env
 part4/blogList/node_modules
 part5/bloglist-frontend/.eslintrc.js
 part5/bloglist-frontend/.vscode
+part5/bloglist-backend/node_modules
+part5/bloglist-backend/.env

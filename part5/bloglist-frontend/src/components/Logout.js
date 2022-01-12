@@ -16,7 +16,7 @@ const Logout = ({ userName, setUser, setErrorMessage }) => {
 
   return (
     <div>
-      <button onClick={handleLogout}>logout</button>
+      <button className="logoutbtn" onClick={handleLogout}>logout</button>
     </div>
   )
 }

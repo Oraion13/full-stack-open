@@ -43,15 +43,15 @@ const Display = ({
   return (
     <div className='blog'>
       {title} by {author}{' '}
-      <button onClick={toggleVisibility}>{buttonLable}</button>
+      <button className='viewbtn' onClick={toggleVisibility}>{buttonLable}</button>
       <div style={showWhenVisible}>
         {url}
         <br />
-        likes: {updateLikes} <button onClick={updateBlog}>like</button> <br />
-        {blogUser.name}
+        likes: {updateLikes} <button className='likebtn' onClick={updateBlog}>like</button> <br />
+        {blogUser.name ? blogUser.name : ''}
         <br />
         {blogUser.userName === userName ? (
-          <button onClick={removeBlog}>remove</button>
+          <button className='removebtn' onClick={removeBlog}>remove</button>
         ) : (
           ''
         )}

@@ -1,16 +1,17 @@
 import Display from './Display'
 
-const Blog = ({ blogs, userName }) => {
+const Blog = ({ blogs, setBlogs, userName }) => {
   blogs.sort((a, b) => {
     return b.likes - a.likes
   })
 
   return (
-    <>
+    <div id='blogs'>
       {blogs.map((blog) => (
         <Display
           key={blog.id}
           id={blog.id}
+          blogs={blogs} setBlogs={setBlogs}
           title={blog.title}
           author={blog.author}
           url={blog.url}
@@ -19,7 +20,7 @@ const Blog = ({ blogs, userName }) => {
           userName={userName}
         />
       ))}
-    </>
+    </div>
   )
 }
 

@@ -38,10 +38,10 @@ const Login = ({ loginUser, setErrorMessage }) => {
     <div>
       <h2>Log in to application</h2>
       <form onSubmit={handleLogin}>
-        <label htmlFor="user">Username</label>
+        <label htmlFor="username">Username</label>
         <input
           type="text"
-          id="user"
+          id="username"
           value={userName}
           onChange={addUserName}
           name="Username"
@@ -56,7 +56,7 @@ const Login = ({ loginUser, setErrorMessage }) => {
           name="Password"
           required
         />
-        <button type="submit">Login</button>
+        <button className='loginbtn' type="submit">Login</button>
       </form>
     </div>
   )
