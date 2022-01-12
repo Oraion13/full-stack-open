@@ -85,7 +85,7 @@ const App = () => {
           ''
         )}
 
-        <Blog blogs={blogs} userName={user !== null ? user.userName : ''} />
+        <Blog blogs={blogs} setBlogs={setBlogs} userName={user !== null ? user.userName : ''} />
       </React.StrictMode>
     </div>
   )
