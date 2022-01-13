@@ -1,6 +1,6 @@
 ## [Full Stack Open](https://fullstackopen.com/en/)
 
-Exercises submited in Full Stack Open exercise submission system:
+Exercises submitted in Full Stack Open exercise submission system:
 
 ### Status
 
