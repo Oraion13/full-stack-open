@@ -1,4 +1,4 @@
-## [Full Stack Open](https://fullstackopen.com/en/){:target="_blank" rel="noopener"}
+## [Full Stack Open](https://fullstackopen.com/en/)
 
 Exercises submitted in Full Stack Open exercise submission system:
 
