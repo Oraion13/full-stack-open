@@ -1,5 +1,8 @@
-# full-stack-open
-Repository created for the projects submission in FullStackOpen
+## [Full Stack Open](https://fullstackopen.com/en/)
+
+Exercises submited in Full Stack Open exercise submission system:
+
+### Status
 
 |Part  | Status|
 |:----:|:-----:|
