@@ -5,3 +5,4 @@ part5/bloglist-frontend/.eslintrc.js
 part5/bloglist-frontend/.vscode
 part5/bloglist-backend/node_modules
 part5/bloglist-backend/.env
+part6/redux-anecdotes/.prettierrc
