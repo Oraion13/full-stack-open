@@ -1,36 +1,18 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
-]
+import anecdoteServices from '../services/anecdotes'
+import { notification } from './notificationReducer'
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0,
-  }
-}
-
-const initialState = anecdotesAtStart.map(asObject)
-
-const anecdoteReducer = (state = initialState, action) => {
+const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
     case 'CREATE_ANECDOTE':
       return [...state, action.data]
 
     case 'VOTE':
-      return state.map((anecdote) => {
-        if (anecdote.id === action.data.id) {
-          anecdote.votes++
-        }
-        return anecdote
-      })
+      return state.map((anecdote) =>
+        anecdote.id === action.data.id ? action.data : anecdote
+      )
+
+    case 'INIT_ANECDOTE':
+      return action.data
 
     default:
       return state
@@ -38,20 +20,37 @@ const anecdoteReducer = (state = initialState, action) => {
 }
 
 export const createAnecdote = (content) => {
-  return {
-    type: 'CREATE_ANECDOTE',
-    data: {
-      content,
-      id: getId(),
-      votes: 0,
-    },
+  return async (dispatch) => {
+    const data = await anecdoteServices.createAnecdote(content)
+    await dispatch({
+      type: 'CREATE_ANECDOTE',
+      data,
+    })
+
+    if (data) await dispatch(notification(`created,  "${content}"`))
+    else await dispatch(notification(`cannot create,  "${content}"`))
   }
 }
 
 export const vote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id },
+  return async (dispatch) => {
+    const data = await anecdoteServices.incrementVotes(id)
+    await dispatch({
+      type: 'VOTE',
+      data,
+    })
+
+    await dispatch(notification(`You've voted,  "${data.content}"`))
+  }
+}
+
+export const initializeAnecdote = () => {
+  return async (dispatch) => {
+    const data = await anecdoteServices.getAll()
+    dispatch({
+      type: 'INIT_ANECDOTE',
+      data,
+    })
   }
 }
 
