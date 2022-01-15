@@ -7,7 +7,7 @@ const getAll = async () => {
   return response.data
 }
 
-const newAnecdote = async (content) => {
+const createAnecdote = async (content) => {
   const anecdote = {
     content,
     votes: 0,
@@ -18,5 +18,16 @@ const newAnecdote = async (content) => {
   return response.data
 }
 
+const getAnecdote = async (id) => {
+  const response = await axios.get(`${baseURL}/${id}`)
+  return response.data
+}
+
+const incrementVotes = async (id) => {
+  const anecdote = await getAnecdote(id)
+  const response = await axios.put(`${baseURL}/${id}`, {...anecdote , votes: anecdote.votes+1})
+  return response.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, newAnecdote }
+export default { getAll, createAnecdote, incrementVotes }
