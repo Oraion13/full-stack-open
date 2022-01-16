@@ -12,3 +12,4 @@ Exercises submitted in Full Stack Open exercise submission system:
 |3     |✅     |
 |4     |✅     |
 |5     |✅     |
+|6     |✅     |
