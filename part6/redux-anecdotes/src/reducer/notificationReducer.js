@@ -24,14 +24,19 @@ const removeNotification = () => {
   }
 }
 
+let timeOutID;
+
+const clearMessage = async () => {
+  clearTimeout(timeOutID)
+}
+
 export const notification = (content, timer = 5) => {
-  return async dispatch => {
-    await dispatch(
-      setNotification(content)
-    )
-    setTimeout(async() => {
+  return async (dispatch) => {
+    await clearMessage()
+    await dispatch(setNotification(content))
+    timeOutID = setTimeout(async () => {
       await dispatch(removeNotification(''))
-    }, timer * 1000);
+    }, timer * 1000)
   }
 }
 
