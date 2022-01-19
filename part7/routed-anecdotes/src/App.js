@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 import {
   Switch,
   Route,
   Link,
   useRouteMatch,
-} from "react-router-dom/cjs/react-router-dom.min";
+} from 'react-router-dom/cjs/react-router-dom.min'
+import { useField } from './hooks/index'
 
 const Menu = () => {
   const padding = {
     paddingRight: 5,
-  };
+  }
   return (
     <div>
       <Link style={padding} to="/">
@@ -22,8 +23,8 @@ const Menu = () => {
         about
       </Link>
     </div>
-  );
-};
+  )
+}
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -36,7 +37,7 @@ const AnecdoteList = ({ anecdotes }) => (
       ))}
     </ul>
   </div>
-);
+)
 
 const About = () => (
   <div>
@@ -58,36 +59,53 @@ const About = () => (
       find the best and add more.
     </p>
   </div>
-);
+)
 
 const Footer = () => (
   <div>
-    Anecdote app for{" "}
-    <a href="https://courses.helsinki.fi/fi/tkt21009" rel="noreferrer" target='_blank'>
+    Anecdote app for{' '}
+    <a
+      href="https://courses.helsinki.fi/fi/tkt21009"
+      rel="noreferrer"
+      target="_blank"
+    >
       Full Stack -websovelluskehitys
     </a>
-    . See{" "}
-    <a href="https://github.com/fullstack-hy/routed-anecdotes/blob/master/src/App.js" rel="noreferrer" target='_blank'>
+    . See{' '}
+    <a
+      href="https://github.com/fullstack-hy/routed-anecdotes/blob/master/src/App.js"
+      rel="noreferrer"
+      target="_blank"
+    >
       https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js
-    </a>{" "}
+    </a>{' '}
     for the source code.
   </div>
-);
+)
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState("");
-  const [author, setAuthor] = useState("");
-  const [info, setInfo] = useState("");
+  const content = useField('text')
+  const author = useField('text')
+  const info = useField('text')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     props.addNew({
-      content,
-      author,
-      info,
+      content: content.value,
+      author: author.value,
+      info: info.value,
       votes: 0,
-    });
-  };
+    })
+    handleReset(e)
+  }
+
+  const handleReset = (event) => {
+    event.preventDefault()
+
+    content.reset()
+    author.reset()
+    info.reset()
+  }
 
   return (
     <div>
@@ -95,33 +113,22 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input
-            name="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
+          <input name="content" {...content} />
         </div>
         <div>
           author
-          <input
-            name="author"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-          />
+          <input name="author" {...author} />
         </div>
         <div>
           url for more info
-          <input
-            name="info"
-            value={info}
-            onChange={(e) => setInfo(e.target.value)}
-          />
+          <input name="info" {...info} />
         </div>
         <button>create</button>
+        <button onClick={handleReset}>reset</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
 const AnecdoteView = ({ anecdote }) => {
   return (
@@ -130,56 +137,63 @@ const AnecdoteView = ({ anecdote }) => {
         {anecdote.content} by {anecdote.author}
       </h2>
       <p>has {anecdote.votes} votes</p>
-      <p>for more info see {<a href={`${anecdote.info}`} rel="noreferrer" target='_blank'>{anecdote.info}</a>}</p>
+      <p>
+        for more info see{' '}
+        {
+          <a href={`${anecdote.info}`} rel="noreferrer" target="_blank">
+            {anecdote.info}
+          </a>
+        }
+      </p>
     </div>
-  );
-};
+  )
+}
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
-      content: "If it hurts, do it more often",
-      author: "Jez Humble",
-      info: "https://martinfowler.com/bliki/FrequencyReducesDifficulty.html",
+      content: 'If it hurts, do it more often',
+      author: 'Jez Humble',
+      info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
-      id: "1",
+      id: '1',
     },
     {
-      content: "Premature optimization is the root of all evil",
-      author: "Donald Knuth",
-      info: "http://wiki.c2.com/?PrematureOptimization",
+      content: 'Premature optimization is the root of all evil',
+      author: 'Donald Knuth',
+      info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
-      id: "2",
+      id: '2',
     },
-  ]);
+  ])
 
-  const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState('')
 
   const addNew = (anecdote) => {
-    anecdote.id = (Math.random() * 10000).toFixed(0);
-    setAnecdotes(anecdotes.concat(anecdote));
+    anecdote.id = (Math.random() * 10000).toFixed(0)
+    setAnecdotes(anecdotes.concat(anecdote))
     setNotification(`a new anecdote '${anecdote.content}' created!`)
     setTimeout(() => {
       setNotification('')
-    }, 10 * 1000);
-  };
+    }, 10 * 1000)
+  }
 
-  const anecdoteById = (id) => anecdotes.find((a) => a.id === id);
+  const anecdoteById = (id) => anecdotes.find((a) => a.id === id)
 
   const vote = (id) => {
-    const anecdote = anecdoteById(id);
-    console.log("id", id);
-    console.log("anecdote", anecdote);
+    const anecdote = anecdoteById(id)
+    console.log('id', id)
+    console.log('anecdote', anecdote)
     const voted = {
       ...anecdote,
       votes: anecdote.votes + 1,
-    };
+    }
 
-    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)));
-  };
+    setAnecdotes(anecdotes.map((a) => (a.id === id ? voted : a)))
+  }
 
-  const match = useRouteMatch("/anecdotes/:id");
-  const anecdote = match ? anecdoteById(match.params.id) : null;
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match ? anecdoteById(match.params.id) : null
 
   return (
     <div>
@@ -203,7 +217,7 @@ const App = () => {
 
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
