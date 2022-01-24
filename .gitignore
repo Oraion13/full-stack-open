@@ -8,3 +8,6 @@ part5/bloglist-backend/.env
 part6/redux-anecdotes/.prettierrc
 part7/routed-anecdotes/.prettierrc
 part7/ultimate-hooks/.prettierrc
+part7/bloglist/bloglist-backend/node_modules
+part7/bloglist/bloglist-backend/.env
+part7/bloglist/bloglist-frontend/.gitignore
