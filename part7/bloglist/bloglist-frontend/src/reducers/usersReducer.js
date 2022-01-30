@@ -7,6 +7,7 @@ const usersReducer = (state = [], action) => {
 
   case 'ONE_USER':
     return state.filter(user => user.id === action.data.id)
+    // return action.data
 
   default:
     return state
@@ -25,12 +26,15 @@ export const initializeUsers = () => {
 
 export const getOneUser = (id) => {
   return async dispatch => {
-    const data = await userService.getOne(id)
+    if(id){
+      const data = await userService.getOne(id)
+      console.log('data', data)
 
-    dispatch({
-      type: 'ONE_USER',
-      data
-    })
+      dispatch({
+        type: 'ONE_USER',
+        data
+      })
+    }
   }
 }
 

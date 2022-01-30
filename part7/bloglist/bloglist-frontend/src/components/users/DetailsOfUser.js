@@ -1,23 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { getOneUser } from '../../reducers/usersReducer'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
 
-const DetailsOfUser = (props) => {
-  const dispatch = useDispatch()
-  dispatch(getOneUser(props.id))
-  const users = useSelector((state) => state.users)
+const DetailsOfUser = () => {
+  const user = useSelector((state) => state.users.filter(user => user.id === useParams().id))
+  console.log('User', user)
 
-  console.log('called', props.id)
-  return (
-    <div>
-      <h2>{users[0].name}</h2>
-      <h3>added blogs</h3>
-      <ul>{users[0].blogs.map(blog => (
-        <li key={blog.id}>
-          {blog.title}
-        </li>
-      ))}</ul>
-    </div>
-  )
+  if(!user) return ''
+  else
+    return (
+      <div>
+        <h2>{user[0].name}</h2>
+        <h3>added blogs</h3>
+        <ul>
+          {user[0].blogs.map((blog) => (
+            <li key={blog.id}>{blog.title}</li>
+          ))}
+        </ul>
+      </div>
+    )
 }
 
 export default DetailsOfUser

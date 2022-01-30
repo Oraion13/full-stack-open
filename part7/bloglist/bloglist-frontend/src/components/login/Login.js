@@ -3,6 +3,7 @@ import Togglable from '../Togglable'
 import LoginForm from './LoginForm'
 import LogoutForm from './LogoutForm'
 import NewBlog from '../blogs/NewBlog'
+import Blog from '../blogs/Blog'
 import { useSelector } from 'react-redux'
 
 const Login = () => {
@@ -20,7 +21,7 @@ const Login = () => {
         </div>
       ) : (
         <div>
-          <h3>{user.userName} logged in</h3>
+          <h3>{user.name} logged in</h3>
 
           <div>
             <LogoutForm />
@@ -31,6 +32,7 @@ const Login = () => {
           </div>
         </div>
       )}
+      <Blog />
     </div>
   )
 }
