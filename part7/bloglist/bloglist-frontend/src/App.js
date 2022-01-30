@@ -1,80 +1,56 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Login from './components/Login'
-import NewBlog from './components/NewBlog'
-import Logout from './components/Logout'
-import Blog from './components/Blog'
-import blogService from './services/blogs'
-import loginService from './services/logins'
-import Togglable from './components/Togglable'
+import React, { useEffect } from 'react'
+import Login from './components/login/Login'
+import Blog from './components/blogs/Blog'
+import Users from './components/users/Users'
 import { useSelector, useDispatch } from 'react-redux'
 import { initializeBlogs } from './reducers/blogsReducer'
+import { setUser } from './reducers/loginReducer'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { initializeUsers } from './reducers/usersReducer'
 
 const App = () => {
   const dispatch = useDispatch()
-  const [user, setUser] = useState(null)
   const notification = useSelector((state) => state.notification)
-  const blogFormRef = useRef()
 
   // get all data
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [])
 
   // store user credentials and token
   useEffect(() => {
-    const loggedUser = window.localStorage.getItem('loggedBlogUser')
-    if (loggedUser) {
-      const user = JSON.parse(loggedUser)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
+    dispatch(setUser())
   }, [])
 
-  const loginUser = async (credentials) => {
-    const user = await loginService.login(credentials)
-
-    if (user) {
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user))
-      blogService.setToken(user.token)
-      setUser(user)
-
-      return user
-    }
-
-    return null
+  const padding = {
+    padding: 5,
   }
 
   return (
-    <div>
-      <React.StrictMode>
+    <Router>
+      <div>
+        <div>
+          <Link style={padding} to="/">
+            home
+          </Link>
+          <Link style={padding} to="/users">
+            users
+          </Link>
+          <Link style={padding} to="/blogs">
+            blogs
+          </Link>
+        </div>
+
         {notification}
 
-        {user === null ? (
-          <Togglable buttonLable="Log in">
-            <Login loginUser={loginUser} />
-          </Togglable>
-        ) : (
-          <h3>{user.userName} logged in</h3>
-        )}
-
-        {user !== null ? (
-          <div>
-            <Logout
-              userName={user.userName}
-              setUser={setUser}
-            />
-
-            <Togglable buttonLable="Create blog" ref={blogFormRef}>
-              <NewBlog />
-            </Togglable>
-          </div>
-        ) : (
-          ''
-        )}
-
-        <Blog userName={user !== null ? user.userName : ''} />
-      </React.StrictMode>
-    </div>
+        <Routes>
+          <Route path="/blogs" element={<Blog />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   )
 }
 

@@ -1,18 +1,16 @@
-import Display from './Display'
+import DisplayBlogs from './DisplayBlogs'
 import { useSelector } from 'react-redux'
 
-const Blog = ({ userName }) => {
+const Blog = () => {
   const blogs = useSelector((state) =>
     state.blogs.sort((a, b) => b.likes - a.likes)
   )
-  console.log(blogs)
   return (
     <div id="blogs">
       {blogs.map((blog) => (
-        <Display
+        <DisplayBlogs
           blog={blog}
           key={blog.id}
-          userName={userName}
         />
       ))}
     </div>

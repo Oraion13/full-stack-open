@@ -2,6 +2,7 @@ require("dotenv").config();
 const usersRouter = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const blog = require("../models/blog");
 
 //Return all users in DB
 usersRouter.get("/", async (request, response) => {
@@ -9,7 +10,7 @@ usersRouter.get("/", async (request, response) => {
     title: 1,
     author: 1,
     url: 1,
-    likes: 1
+    likes: 1,
   });
   response.json(users);
 });
@@ -34,6 +35,19 @@ usersRouter.post("/", async (reqest, respons) => {
     const savedUser = await newUser.save();
 
     respons.status(201).send(savedUser);
+  }
+});
+
+// To get one user
+usersRouter.get("/:id", async (request, response) => {
+  const user = await User.findById(request.params.id).populate("blogs", {
+    title: 1,
+  });
+
+  if (user) {
+    response.json(user);
+  } else {
+    response.status(404).send({ error: "user not found" });
   }
 });
 

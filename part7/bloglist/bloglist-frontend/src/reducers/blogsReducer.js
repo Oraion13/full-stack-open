@@ -61,11 +61,11 @@ export const removeBlog = (id) => {
 
 export const likeBlog = (id, content) => {
   return async dispatch => {
-    await blogService.updateBlog(id, content)
     await dispatch({
       type: 'LIKE_BLOG',
       data: { id, content }
     })
+    await blogService.updateBlog(id, content)
   }
 }
 
