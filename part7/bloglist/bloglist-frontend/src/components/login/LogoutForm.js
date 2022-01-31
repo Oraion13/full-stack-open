@@ -11,10 +11,8 @@ const Logout = () => {
     dispatch(userLogout(userName))
   }
 
-  return (
-    <div>
-      <button className="logoutbtn" onClick={handleLogout}>logout</button>
-    </div>
+  return(
+    <button className="logoutbtn" onClick={handleLogout}>logout</button>
   )
 }
 

@@ -43,6 +43,7 @@ blogRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async 
         author: body.author || "no author",
         url: body.url,
         likes: 0,
+        comments: [],
         user: user._id,
       })
     : new Blog({
@@ -51,6 +52,7 @@ blogRouter.post("/", middleware.tokenExtractor, middleware.userExtractor, async 
         author: body.author || "no author",
         url: body.url,
         likes: body.likes,
+        comments: [],
         user: user._id,
       });
 

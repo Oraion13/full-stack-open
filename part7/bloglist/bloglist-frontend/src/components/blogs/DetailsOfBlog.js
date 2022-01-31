@@ -1,15 +1,20 @@
 import { likeBlog, removeBlog } from '../../reducers/blogsReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
+import ViewComments from './ViewComments'
 
 const DetailsOfBlog = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const userName = useSelector((state) => state.user ? state.user.userName : '')
-  const blog = useSelector((state) => state.blogs.filter(blog => blog.id === useParams().id))[0]
+  const userName = useSelector((state) =>
+    state.user ? state.user.userName : ''
+  )
+  const blog = useSelector((state) =>
+    state.blogs.filter((blog) => blog.id === useParams().id)
+  )[0]
 
-  const updateBlog = () => {
-    dispatch(likeBlog(blog.id, { likes: blog.likes+1 }))
+  const likeThisBlog = () => {
+    dispatch(likeBlog(blog.id, { likes: blog.likes + 1 }))
   }
 
   const deleteBlog = async () => {
@@ -21,12 +26,19 @@ const DetailsOfBlog = () => {
 
   return (
     <div>
-      <a href={blog.url} target='_blank' rel="noreferrer">{blog.title}</a>
+      <h2>
+        {blog.title} by {blog.author}
+      </h2>
+      <a href={blog.url} target="_blank" rel="noreferrer">
+        click here to view blog
+      </a>
       <br />
       likes: {blog.likes}{' '}
-      {userName && <button className="likebtn" onClick={updateBlog}>
-        like
-      </button>}{' '}
+      {userName && (
+        <button className="likebtn" onClick={likeThisBlog}>
+          like
+        </button>
+      )}{' '}
       <br />
       {blog.user[0].name ? blog.user[0].name : ''}
       <br />
@@ -37,6 +49,7 @@ const DetailsOfBlog = () => {
       ) : (
         ''
       )}
+      <ViewComments blog={blog} />
     </div>
   )
 }

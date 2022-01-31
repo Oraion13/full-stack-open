@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 
 const DetailsOfUser = () => {
   const user = useSelector((state) => state.users.filter(user => user.id === useParams().id))
-  console.log('User', user)
 
   if(!user) return ''
   else

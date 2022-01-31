@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { userLogin } from '../../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const navigate = useNavigate()
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -27,6 +29,7 @@ const Login = () => {
     setUserName('')
     setPassword('')
 
+    navigate('/')
   }
 
   return (

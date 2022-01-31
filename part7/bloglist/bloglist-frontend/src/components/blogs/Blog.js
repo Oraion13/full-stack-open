@@ -7,12 +7,19 @@ const Blog = () => {
   )
   const styles = {
     padding: 5,
-    borderStyle: 'inset'
+    margin: 5,
+    textDecoration: 'none',
+    color: 'black'
   }
+
   return (
     <div id="blogs">
       {blogs.map((blog) => (
-        <p key={blog.id} style={styles}><Link to={`/blogs/${blog.id}`} style={{ textDecoration: 'none' }}>{blog.title} by {blog.author}</Link></p>
+        <p key={blog.id} style={ { borderStyle: 'inset', padding: 5 } }>
+          <Link to={`/blogs/${blog.id}`} style={styles}>
+            {blog.title} by {blog.author}
+          </Link>
+        </p>
       ))}
     </div>
   )
