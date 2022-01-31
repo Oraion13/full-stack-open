@@ -11,3 +11,6 @@ part7/ultimate-hooks/.prettierrc
 part7/bloglist/bloglist-backend/node_modules
 part7/bloglist/bloglist-backend/.env
 part7/bloglist/bloglist-frontend/.gitignore
+part7/bloglist/bloglist-frontend/src/components/blogs/DisplayBlogs.js
+part7/bloglist/bloglist-frontend/src/components/login/Login.js
+part7/bloglist/bloglist-frontend/src/components/Togglable.js

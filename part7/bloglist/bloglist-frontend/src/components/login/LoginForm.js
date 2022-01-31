@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { notification } from '../reducers/notificationReducer'
+import { userLogin } from '../../reducers/loginReducer'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-const Login = ({ loginUser }) => {
+const Login = () => {
+  const navigate = useNavigate()
   const [userName, setUserName] = useState('')
   const [password, setPassword] = useState('')
   const dispatch = useDispatch()
@@ -19,18 +21,15 @@ const Login = ({ loginUser }) => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
-    try {
-      await loginUser({
-        userName,
-        password,
-      })
+    dispatch(userLogin({
+      userName,
+      password,
+    }))
 
-      setUserName('')
-      setPassword('')
-    } catch (exception) {
-      console.log(exception)
-      dispatch(notification('Wrong credentials'))
-    }
+    setUserName('')
+    setPassword('')
+
+    navigate('/')
   }
 
   return (
