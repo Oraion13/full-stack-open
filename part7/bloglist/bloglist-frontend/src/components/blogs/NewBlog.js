@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewBlog } from '../../reducers/blogsReducer'
 
-const NewBlog = () => {
+const NewBlog = (props) => {
   const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -27,11 +27,12 @@ const NewBlog = () => {
     setTitle('')
     setAuthor('')
     setURL('')
+    props.blogRef.current.toggleVisibility()
   }
 
   return (
-    <form onSubmit={handleCreateBlog}>
-      <label htmlFor="title">title</label>
+    <form onSubmit={handleCreateBlog} id='new-blog'>
+      <label htmlFor="title">Title</label>
       <input
         type="text"
         id="title"
@@ -40,7 +41,7 @@ const NewBlog = () => {
         name="title"
         required
       />
-      <label htmlFor="author">author</label>
+      <label htmlFor="author">Author</label>
       <input
         type="text"
         id="author"

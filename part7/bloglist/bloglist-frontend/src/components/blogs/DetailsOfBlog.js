@@ -24,34 +24,39 @@ const DetailsOfBlog = () => {
     }
   }
 
-  return (
-    <div>
-      <h2>
-        {blog.title} by {blog.author}
-      </h2>
-      <a href={blog.url} target="_blank" rel="noreferrer">
+  if(!blog) return null
+  else
+    return (
+      <div id='details-of-blog'>
+        <div className='details'>
+          <h2>
+            {blog.title} by {blog.author}
+          </h2>
+          <a href={blog.url} target="_blank" rel="noreferrer">
         click here to view blog
-      </a>
-      <br />
-      likes: {blog.likes}{' '}
-      {userName && (
-        <button className="likebtn" onClick={likeThisBlog}>
+          </a>
+          <br />
+          <i className="fas fa-heart">{' '}{blog.likes}</i>
+          {userName && (
+            <button className="likebtn" onClick={likeThisBlog}>
           like
-        </button>
-      )}{' '}
-      <br />
-      {blog.user[0].name ? blog.user[0].name : ''}
-      <br />
-      {blog.user[0].userName === userName ? (
-        <button className="removebtn" onClick={deleteBlog}>
+            </button>
+          )}{' '}
+          <div className='author'>
+            by, {blog.user[0].name ? blog.user[0].name : ''}
+          </div>
+          <br />
+          {blog.user[0].userName === userName ? (
+            <button className="removebtn" onClick={deleteBlog}>
           remove
-        </button>
-      ) : (
-        ''
-      )}
-      <ViewComments blog={blog} />
-    </div>
-  )
+            </button>
+          ) : (
+            ''
+          )}
+        </div>
+        <ViewComments blog={blog} />
+      </div>
+    )
 }
 
 export default DetailsOfBlog

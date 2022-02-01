@@ -5,11 +5,11 @@ const ViewComments = ({ blog }) => {
   if(!blog.comments) return ''
   else
     return (
-      <div>
+      <div id='comments'>
         <h2>Comments</h2>
         <h3>Add Comment</h3>
         <AddComment blog={blog} />
-        <ul>
+        <ul className='comments'>
           {blog.comments.map((comment, index) => <li key={index}>{comment}</li>)}
         </ul>
 
