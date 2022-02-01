@@ -37,6 +37,7 @@ export const addNewBlog = (content) => {
   return async dispatch => {
     const data = await blogService.postBlog(content)
 
+    console.log(data)
     if(data){
       await dispatch(notification((`a new blog ${content.title} by ${content.author} is added`)))
       await dispatch({
