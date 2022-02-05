@@ -1,5 +1,5 @@
-const { ApolloServer, gql } = require("apollo-server");
-
+const { ApolloServer, gql, UserInputError } = require("apollo-server");
+const { v1: uuid } = require("uuid");
 let authors = [
   {
     name: "Robert Martin",
@@ -91,17 +91,17 @@ let books = [
 const typeDefs = gql`
   type Book {
     title: String!
-    published: Int
-    author: String
+    published: Int!
+    author: String!
     id: ID!
     genres: [String!]!
   }
 
   type Author {
-    name: String!
+    name: String
     born: Int
     id: ID!
-    bookCount: Int!
+    bookCount: Int
   }
 
   type Query {
@@ -109,6 +109,17 @@ const typeDefs = gql`
     authorCount: Int!
     allBooks(author: String, genre: String): [Book!]!
     allAuthors: [Author!]!
+  }
+
+  type Mutation {
+    addBook(
+      title: String!
+      author: String!
+      published: Int!
+      genres: [String]!
+    ): Book
+
+    editAuthor(name: String!, setBornTo: Int!): Author
   }
 `;
 
@@ -144,6 +155,41 @@ const resolvers = {
         };
         return auth;
       }),
+  },
+  Mutation: {
+    addBook: (root, args) => {
+      const book = { ...args, id: uuid() };
+      const author = authors.find((author) => author.name === book.author);
+
+      if (!author) {
+        const newAuthor = {
+          name: book.author,
+          id: uuid(),
+        };
+
+        authors = authors.concat(newAuthor);
+      }
+
+      books = books.concat(book);
+      return book;
+    },
+    editAuthor: (root, args) => {
+      let author = authors.find((author) =>
+        author.name === args.name ? author : ""
+      );
+      if (author) {
+        author = { ...author, born: args.setBornTo };
+        authors = authors.map((auth) =>
+          auth.name === author.name ? author : auth
+        );
+        return author;
+      } else {
+      //   throw new UserInputError("Author not found", {
+      //     invalidArgs: args.name,
+      //   });
+      return null
+      }
+    },
   },
 };
 
