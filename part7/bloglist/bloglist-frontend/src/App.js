@@ -68,12 +68,12 @@ const App = () => {
         <p id='notification'>{notification}</p>
 
         <Routes>
-          <Route path="/blogs/:id" element={<DetailsOfBlog />} />
-          <Route path="/users/:id" element={<DetailsOfUser />} />
-          <Route path="/blogs" element={<Blog />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route exact path="/blogs/:id" element={<DetailsOfBlog />} />
+          <Route exact path="/users/:id" element={<DetailsOfUser />} />
+          <Route exact path="/blogs" element={<Blog />} />
+          <Route exact path="/users" element={<Users />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/" element={<Home />} />
         </Routes>
       </div>
     </Router>
