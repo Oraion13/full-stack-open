@@ -7,7 +7,9 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=ctest nodemon index.js"
+    "start:test": "cross-env NODE_ENV=ctest nodemon index.js",
+    "start:build": "cd ../bloglist-frontend && npm run build && cp -r build '../bloglist-backend'",
+    "start:deploy" : "git add . && git commit -m \"initiate the spark\" && git push heroku master"
   },
   "author": "Kannan",
   "license": "ISC",

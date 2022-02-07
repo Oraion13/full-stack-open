@@ -62,7 +62,7 @@ export const userLogout = (userName) => {
         type: 'USER_LOGOUT',
       })
 
-      dispatch(notification(`successfully logged out ${userName}`))
+      dispatch(notification(`Logged out from ${userName}`))
     }
   }
 

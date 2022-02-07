@@ -11,7 +11,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import Input from '@material-ui/core/Input'
 
 const Login = () => {
-  const navigate = useNavigate()
   const [userName, setUserName] = useState({
     userName: ''
   })
@@ -20,6 +19,7 @@ const Login = () => {
     showPassword: false,
   })
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleUsernameChange = (event) => {
     setUserName({ userName: event.target.value })
@@ -54,15 +54,9 @@ const Login = () => {
   }
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
-      }}
-    >
+    <div id='login-form'>
       <h2>Log in to application</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className='login-form'>
         <InputLabel htmlFor="username">Username</InputLabel>
         <Input
           type="text"
@@ -78,16 +72,15 @@ const Login = () => {
           id="Password"
           value={password.password}
           onChange={handlePasswordChange('password')}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-              >
-                {password.showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          }
+          endAdornment={<InputAdornment style={{ 'position': 'absolute', 'right' : '-25%' }}>
+            <IconButton
+              onClick={handleClickShowPassword}
+              onMouseDown={handleMouseDownPassword}
+              style={{ 'background': '#ffffff00' }}
+            >
+              {password.showPassword ? <Visibility /> : <VisibilityOff />}
+            </IconButton>
+          </InputAdornment>}
           required
         />
         <button className="loginbtn" type="submit">

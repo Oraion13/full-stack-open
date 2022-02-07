@@ -2,6 +2,7 @@ import { likeBlog, removeBlog } from '../../reducers/blogsReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import ViewComments from './ViewComments'
+import { notification } from '../../reducers/notificationReducer'
 
 const DetailsOfBlog = () => {
   const dispatch = useDispatch()
@@ -20,6 +21,7 @@ const DetailsOfBlog = () => {
   const deleteBlog = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)) {
       dispatch(removeBlog(blog.id))
+      dispatch(notification(`${blog.title} by ${blog.author} is removed`))
       navigate('/blogs')
     }
   }
@@ -36,16 +38,18 @@ const DetailsOfBlog = () => {
         click here to view blog
           </a>
           <br />
-          <i className="fas fa-heart">{' '}{blog.likes}</i>
-          {userName && (
-            <button className="likebtn" onClick={likeThisBlog}>
+          <div className='like-author'>
+            <i className="fas fa-heart">{' '}{blog.likes}</i>
+            {userName && (
+              <button className="likebtn" onClick={likeThisBlog}>
           like
-            </button>
-          )}{' '}
-          <div className='author'>
+              </button>
+            )}{' '}
+            <span className='author'>
             by, {blog.user[0].name ? blog.user[0].name : ''}
+            </span>
           </div>
-          <br />
+
           {blog.user[0].userName === userName ? (
             <button className="removebtn" onClick={deleteBlog}>
           remove

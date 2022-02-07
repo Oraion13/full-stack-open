@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addNewUser } from '../../reducers/usersReducer'
+import { notification } from '../../reducers/notificationReducer'
 
 const NewUser = (props) => {
   const dispatch = useDispatch()
@@ -24,6 +25,7 @@ const NewUser = (props) => {
     event.preventDefault()
 
     dispatch(addNewUser({ name, userName, password }))
+    dispatch(notification(`${userName} signed up successfully`))
     setName('')
     setUserName('')
     setPassword('')
@@ -31,7 +33,7 @@ const NewUser = (props) => {
   }
 
   return (
-    <form onSubmit={handleCreateUser}>
+    <form onSubmit={handleCreateUser} className='signup-form'>
       <label htmlFor="uname">name</label>
       <input
         type="text"
