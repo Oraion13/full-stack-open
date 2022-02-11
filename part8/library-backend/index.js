@@ -127,22 +127,22 @@ const resolvers = {
   Query: {
     bookCount: () => books.length,
     authorCount: () => authors.length,
-    allBooks: (root, args) =>
-      !args.genre
-        ? books.filter((book) => (book.author === args.author ? book : ""))
-        : !args.author
-        ? books.filter((book) =>
-            book.genres.find((genre) => (genre === args.genre ? book : ""))
-          )
-        : args.author && args.genre
-        ? books.filter(
-            (book) =>
-              book.author === args.author &&
-              book.genres.find((genre) =>
-                (genre === args.genre ? book : "") ? book : ""
-              )
-          )
-        : books,
+    allBooks: (root, args) => {
+      let filtered = books;
+      if (args.author) {
+        filtered = filtered.filter((book) =>
+          book.author === args.author ? book : ""
+        );
+      }
+
+      if (args.genre) {
+        filtered = filtered.filter((book) =>
+          book.genres.find((genre) => (genre === args.genre ? book : ""))
+        );
+      }
+
+      return filtered;
+    },
     allAuthors: () =>
       authors.map((author) => {
         const auth = {
@@ -184,10 +184,10 @@ const resolvers = {
         );
         return author;
       } else {
-      //   throw new UserInputError("Author not found", {
-      //     invalidArgs: args.name,
-      //   });
-      return null
+        //   throw new UserInputError("Author not found", {
+        //     invalidArgs: args.name,
+        //   });
+        return null;
       }
     },
   },

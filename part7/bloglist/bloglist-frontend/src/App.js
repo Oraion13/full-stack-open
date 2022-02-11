@@ -76,6 +76,14 @@ const App = () => {
           <Route exact path="/" element={<Home />} />
         </Routes>
       </div>
+      <footer className='footer'>
+        <div className='made-with'>
+          <span>Made with <i className="fas fa-heart"></i> by Kannan</span>
+        </div>
+        <div className='copyright'>
+          <i className="far fa-copyright"> 2022 Kannan</i>
+        </div>
+      </footer>
     </Router>
   )
 }
