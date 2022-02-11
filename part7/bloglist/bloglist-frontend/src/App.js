@@ -4,6 +4,7 @@ import { initializeBlogs } from './reducers/blogsReducer'
 import { setUser } from './reducers/loginReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { Button } from '@mui/material'
 import './App.css'
 import Users from './components/users/Users'
 import DetailsOfUser from './components/users/DetailsOfUser'
@@ -42,39 +43,47 @@ const App = () => {
           <div className="icon">
             <p>Blog App</p>
           </div>
-          <div className="items">
-            <Link style={padding} to="/" className="nav-item">
-              Home
-            </Link>
-            <Link style={padding} to="/blogs" className="nav-item">
-              Blogs
-            </Link>
-            <Link style={padding} to="/users" className="nav-item">
-              Users
-            </Link>
+          <div className="nav-items">
+            <Button component={Link} style={padding} to="/" className="nav-item">
+              <span id='nav-item'>Home</span>
+            </Button>
+            <Button component={Link} style={padding} to="/blogs" className="nav-item">
+              <span id='nav-item'>Blogs</span>
+            </Button>
+            <Button component={Link} style={padding} to="/users" className="nav-item">
+              <span id='nav-item'>Users</span>
+            </Button>
             {!user ? (
-              <Link style={padding} to="/login" className="nav-item">
+              <Button component={Link} style={padding} to="/login" className="nav-item">
                 <button className="logIn">login</button>
-              </Link>
+              </Button>
             ) : (
-              <span>
+              <span className='user-name'>
                 {user.name} logged in {<Logout />}
               </span>
             )}
           </div>
         </div>
 
-        {notification}
+        <p id='notification'>{notification}</p>
 
         <Routes>
-          <Route path="/blogs/:id" element={<DetailsOfBlog />} />
-          <Route path="/users/:id" element={<DetailsOfUser />} />
-          <Route path="/blogs" element={<Blog />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Home />} />
+          <Route exact path="/blogs/:id" element={<DetailsOfBlog />} />
+          <Route exact path="/users/:id" element={<DetailsOfUser />} />
+          <Route exact path="/blogs" element={<Blog />} />
+          <Route exact path="/users" element={<Users />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/" element={<Home />} />
         </Routes>
       </div>
+      <footer className='footer'>
+        <div className='made-with'>
+          <span>Made with <i className="fas fa-heart"></i> by Kannan</span>
+        </div>
+        <div className='copyright'>
+          <i className="far fa-copyright"> 2022 Kannan</i>
+        </div>
+      </footer>
     </Router>
   )
 }

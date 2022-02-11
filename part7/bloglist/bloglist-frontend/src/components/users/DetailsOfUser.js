@@ -7,7 +7,7 @@ const DetailsOfUser = () => {
   if(user.length === 0) return ''
   else
     return (
-      <div>
+      <div className='details-of-user'>
         <h2>{user[0].name}</h2>
         <h3>added blogs</h3>
         <ul>

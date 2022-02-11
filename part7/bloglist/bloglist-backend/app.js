@@ -1,5 +1,6 @@
 const config = require("./utils/config");
 const express = require("express");
+const path = require('path');
 require("express-async-errors");
 const app = express();
 const cors = require("cors");
@@ -22,7 +23,9 @@ mongoose
   });
 
 app.use(cors());
-app.use(express.static("build"));
+
+app.use(express.static(path.join(__dirname, 'build')));
+
 app.use(express.json());
 app.use(middleware.requestLogger);
 
@@ -34,6 +37,10 @@ if (process.env.NODE_ENV === "ctest") {
   const testRouter = require("./controllers/testing");
   app.use("/api/testing", testRouter);
 }
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);

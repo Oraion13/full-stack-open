@@ -45,15 +45,15 @@ const Users = () => {
 
   const styles = {
     textDecoration: 'none',
-    color: 'black'
+    color: 'black',
   }
 
   return (
-    <div>
+    <div className='user-table'>
       <Togglable buttonLable="Sign up" ref={userRef}>
         <NewUser userRef={userRef} />
       </Togglable>
-      <TableContainer sx={ { maxWidth: 600 } } component={Paper}>
+      <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             <StyledTableRow>
@@ -68,7 +68,9 @@ const Users = () => {
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <StyledTableCell>
-                  <Link style={styles} to={`/users/${user.id}`}>{user.name}</Link>
+                  <Link style={styles} to={`/users/${user.id}`}>
+                    {user.name}
+                  </Link>
                 </StyledTableCell>
                 <StyledTableCell align="right">{user.blogs}</StyledTableCell>
               </StyledTableRow>

@@ -21,7 +21,7 @@ const AddComment = ({ blog }) => {
 
   return(
     <form onSubmit={handleSubmit} className='comments-form'>
-      <input name="comment" type="text" id="comment" value={comment} onChange={addComment} />
+      <input name="comment" type="text" id="comment" value={comment} onChange={addComment} placeholder='add a comment' />
       <button type="submit">add</button>
     </form>
   )
