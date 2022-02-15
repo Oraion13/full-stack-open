@@ -4,8 +4,8 @@
   "description": "library application for full-stack-open assignment",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js"
+    "start": "cross-env NODE_ENV=production node new_index.js",
+    "dev": "cross-env NODE_ENV=development nodemon new_index.js"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,9 @@
   "dependencies": {
     "apollo-server": "^3.6.2",
     "apollo-server-core": "^3.6.2",
+    "dotenv": "^16.0.0",
     "graphql": "^16.3.0",
+    "mongoose": "^6.2.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
