@@ -8,18 +8,22 @@ const Query = {
   },
 
   allBooks: async (root, args) => {
-    const authorID = !args.author
-      ? ""
-      : await Author.find({ name: args.author });
-      
-      console.log(authorID);
-    return args.author && args.genre
+    const authorID =
+      args.hasOwnProperty("author") && args["author"].length > 0
+        ? await Author.find({ name: args.author })
+        : "";
+
+    return authorID && args.hasOwnProperty("genre") && args["genre"].length > 0
       ? await Book.find({
-          $and: [{ genres: { $in: [args.genre] } }, { author: authorID }],
-        }).populate("author") : !args.author
-      ? await Book.find({ genres: { $in: [args.genre] } }).populate("author")
-      : !args.genre
-      ? await Book.find({ author: authorID }).populate("author") 
+          $and: [
+            { genres: { $in: [args["genre"]] } },
+            { author: authorID[0]._id },
+          ],
+        }).populate("author")
+      : authorID
+      ? await Book.find({ author: authorID[0]._id }).populate("author")
+      : args.hasOwnProperty("genre") && args["genre"].length > 0
+      ? await Book.find({ genres: { $in: [args["genre"]] } }).populate("author")
       : await Book.find({}).populate("author");
   },
 
