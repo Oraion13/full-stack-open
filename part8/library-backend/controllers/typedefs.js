@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Author {
     name: String!
     born: Int
+    books: [Book]
     id: ID!
   }
 
@@ -19,6 +20,7 @@ const typeDefs = gql`
   type User {
     username: String!
     favoriteGenre: String!
+    books: [Book]
     id: ID!
   }
   
@@ -31,6 +33,7 @@ const typeDefs = gql`
     authorCount: Int
     allBooks(author: String, genre: String): [Book]
     allAuthors: [Author]
+    allUsers: [User]
     me: User
   }
 

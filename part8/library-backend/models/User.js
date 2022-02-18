@@ -12,8 +12,14 @@ const schema = new mongoose.Schema({
     required: true,
   },
   favoriteGenre: {
-      type: String
-  }
+    type: String,
+  },
+  books: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Book",
+    },
+  ],
 });
 
 module.exports = mongoose.model("User", schema);

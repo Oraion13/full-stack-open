@@ -7,7 +7,13 @@ const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
 
 const Mutation = {
-  addBook: async (root, args) => {
+  addBook: async (root, args, context) => {
+    const currentUser = context.currentUser
+
+    if(!currentUser){
+      throw new AuthenticationError("not authenticated")
+    }
+
     if (!args.title || !args.author || !args.published || !args.genres) {
       throw new UserInputError("Args missing", {
         invalidArgs: "some args are missing",
@@ -31,14 +37,26 @@ const Mutation = {
       author: savedAuthor._id,
       published: args.published,
       genres: args.genres,
+      user: currentUser.id
     });
 
     const savedBook = await book.save();
+    currentUser.books = currentUser.books.concat(savedBook._id)
+    savedAuthor.books = savedAuthor.books.concat(savedBook._id)
 
-    return await Book.findById(savedBook._id).populate("author");
+    await User.findByIdAndUpdate(currentUser.id, currentUser)
+    await Author.findByIdAndUpdate(savedAuthor._id, savedAuthor)
+
+    return await Book.findById(savedBook._id).populate("author user");
   },
 
-  editAuthor: async (root, args) => {
+  editAuthor: async (root, args, context) => {
+    const currentUser = context.currentUser
+
+    if(!currentUser){
+      throw new AuthenticationError("not authenticated")
+    }
+
     if (!args.name || !args.setBornAt) {
       throw new UserInputError("args missing", {
         invalidArgs: "author name/born date missing",
