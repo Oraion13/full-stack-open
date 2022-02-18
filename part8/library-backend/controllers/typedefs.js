@@ -3,7 +3,8 @@ const { gql } = require("apollo-server");
 const typeDefs = gql`
   type Author {
     name: String!
-    born: Int!
+    born: Int
+    books: [Book]
     id: ID!
   }
 
@@ -12,14 +13,28 @@ const typeDefs = gql`
     author: Author!
     published: Int!
     genres: [String!]!
+    user: User!
     id: ID!
   }
 
+  type User {
+    username: String!
+    favoriteGenre: String!
+    books: [Book]
+    id: ID!
+  }
+  
+  type Token {
+    value: String!
+  }
+
   type Query {
-    bookCount: Int!
-    authorCount: Int!
-    allBooks(author: String, genre: String): [Book!]!
-    allAuthors: [Author!]!
+    bookCount: Int
+    authorCount: Int
+    allBooks(author: String, genre: String): [Book]
+    allAuthors: [Author]
+    allUsers: [User]
+    me: User
   }
 
   type Mutation {
@@ -30,7 +45,18 @@ const typeDefs = gql`
       genres: [String]!
     ): Book
 
-    editAuthor(name: String!, setBornTo: Int!): Author
+    editAuthor(name: String!, setBornAt: Int!): Author
+
+    createUser(
+      username: String!
+      favoriteGenre: String!
+      password: String!
+    ): User
+
+    login(
+      username: String!
+      password: String!
+    ): Token
   }
 `;
 

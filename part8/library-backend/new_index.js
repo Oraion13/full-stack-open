@@ -3,6 +3,7 @@ const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
 const typeDefs = require("./controllers/typedefs");
 const resolvers = require("./controllers/resolvers");
+const context = require("./controllers/context");
 
 console.log("Connecting to MongoDB");
 
@@ -18,8 +19,9 @@ mongoose
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  context,
 });
 
 server.listen().then(({ url }) => {
-  console.log(`Server ready at ${url}`);
+  console.log(`🚀 Server ready at ${url}`);
 });
