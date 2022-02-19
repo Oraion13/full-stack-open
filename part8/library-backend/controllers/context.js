@@ -11,7 +11,7 @@ const context = async ({ req }) => {
       process.env.ACCESS_TOKEN_SECRET
     );
     
-    const currentUser = await User.findById(decodedToken.id).populate("books");
+    const currentUser = await User.findById(decodedToken.id);
     return { currentUser };
   }
 };

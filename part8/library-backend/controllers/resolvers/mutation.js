@@ -47,7 +47,7 @@ const Mutation = {
     await User.findByIdAndUpdate(currentUser.id, currentUser)
     await Author.findByIdAndUpdate(savedAuthor._id, savedAuthor)
 
-    return await Book.findById(savedBook._id).populate("author user");
+    return await Book.findById(savedBook._id);
   },
 
   editAuthor: async (root, args, context) => {

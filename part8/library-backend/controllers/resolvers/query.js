@@ -5,13 +5,7 @@ const User = require("../../models/User");
 
 const Query = {
   allAuthors: async () => {
-    return await Author.find({}).populate({
-      path: "books",
-      populate: [
-        { path: "user", populate: [{ path: "books" }] },
-        { path: "author", populate: [{ path: "books" }] },
-      ],
-    });
+    return await Author.find({});
   },
 
   allBooks: async (root, args) => {
@@ -26,31 +20,15 @@ const Query = {
             { genres: { $in: [args["genre"]] } },
             { author: authorID[0]._id },
           ],
-        }).populate([
-          { path: "author", populate: [{ path: "books" }] },
-          { path: "user", populate: [{ path: "books" }] },
-        ])
+        })
       : authorID
-      ? await Book.find({ author: authorID[0]._id }).populate([
-          { path: "author", populate: [{ path: "books" }] },
-          { path: "user", populate: [{ path: "books" }] },
-        ])
+      ? await Book.find({ author: authorID[0]._id })
       : args.hasOwnProperty("genre") && args["genre"].length > 0
-      ? await Book.find({ genres: { $in: [args["genre"]] } }).populate([
-          { path: "author", populate: [{ path: "books" }] },
-          { path: "user", populate: [{ path: "books" }] },
-        ])
-      : await Book.find({}).populate("author user");
+      ? await Book.find({ genres: { $in: [args["genre"]] } })
+      : await Book.find({});
   },
 
-  allUsers: async () =>
-    await User.find({}).populate({
-      path: "books",
-      populate: [
-        { path: "author", populate: [{ path: "books" }] },
-        { path: "user", populate: [{ path: "books" }] },
-      ],
-    }),
+  allUsers: async () => await User.find({}),
 
   authorCount: async () => await Author.collection.countDocuments(),
 
