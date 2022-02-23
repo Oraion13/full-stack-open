@@ -8,10 +8,10 @@ const jwt = require("jsonwebtoken");
 
 const Mutation = {
   addBook: async (root, args, context) => {
-    const currentUser = context.currentUser
+    const currentUser = context.currentUser;
 
-    if(!currentUser){
-      throw new AuthenticationError("not authenticated")
+    if (!currentUser) {
+      throw new AuthenticationError("not authenticated");
     }
 
     if (!args.title || !args.author || !args.published || !args.genres) {
@@ -97,17 +97,19 @@ const Mutation = {
   },
 
   login: async (root, args) => {
-    if(!args.username || !args.password){
+    if (!args.username || !args.password) {
       throw new UserInputError("args missing", {
         invalidArgs: "username/password missing",
       });
     }
 
-    const user = await User.findOne({username: args.username})
+    const user = await User.findOne({ username: args.username });
 
-    const passwordCorrent = !user ? false : brcypt.compare(args.password, user.password)
+    const passwordCorrent = !user
+      ? false
+      : brcypt.compare(args.password, user.password);
 
-    if(!(user && passwordCorrent)){
+    if (!(user && passwordCorrent)) {
       throw new UserInputError("wrong crediantials", {
         invalid: "invalid username/password",
       });
@@ -116,11 +118,11 @@ const Mutation = {
     const token = {
       username: user.username,
       id: user._id,
-      favoriteGenre: user.favoriteGenre
-    }
+      favoriteGenre: user.favoriteGenre,
+    };
 
-    return {value: jwt.sign(token, process.env.ACCESS_TOKEN_SECRET)}
-  }
+    return { value: jwt.sign(token, process.env.ACCESS_TOKEN_SECRET) };
+  },
 };
 
 module.exports = Mutation;
