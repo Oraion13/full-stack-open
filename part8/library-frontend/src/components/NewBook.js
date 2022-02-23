@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ADD_BOOK, ALL_BOOKS, ALL_AUTHORS } from "../queries";
 import { useMutation } from "@apollo/client";
+import SetBirthYear from "./setBirthYear";
 
 const NewBook = (props) => {
   const [title, setTitle] = useState("");
@@ -80,6 +81,9 @@ const NewBook = (props) => {
         <div>genres: {genres.join(" ")}</div>
         <button type="submit">create book</button>
       </form>
+
+      <SetBirthYear />
+      
     </div>
   );
 };

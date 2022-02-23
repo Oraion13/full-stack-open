@@ -5,6 +5,7 @@ const typeDefs = gql`
     name: String!
     born: Int
     books: [Book]
+    bookCount: Int
     id: ID!
   }
 
