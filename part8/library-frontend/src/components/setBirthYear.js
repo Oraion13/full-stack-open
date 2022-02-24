@@ -16,7 +16,7 @@ const SetBirthYear = () => {
   const submit = (e) => {
     e.preventDefault();
 
-    editAuthor({ variables: { name: author.value, setBornTo: Number(born) } });
+    editAuthor({ variables: { name: author.value, setBornAt: Number(born) } });
 
     setAuthor("");
     setBorn(0);
