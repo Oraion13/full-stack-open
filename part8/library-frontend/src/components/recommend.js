@@ -11,8 +11,6 @@ const Recommend = (props) => {
       genre,
     },
   });
-  console.log("user",user);
-  console.log("book", books);
 
   if (!props.show) {
     return null;

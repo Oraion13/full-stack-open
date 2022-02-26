@@ -32,6 +32,8 @@ const Books = (props) => {
     { value: "anime", label: "anime" },
   ];
 
+  console.log(allBooks);
+
   return (
     <div>
       <h2>books</h2>
