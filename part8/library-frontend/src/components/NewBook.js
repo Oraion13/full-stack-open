@@ -12,14 +12,25 @@ const NewBook = (props) => {
 
   const [createBook] = useMutation(ADD_BOOK, {
     onError: (error) => {
-      props.setErrorMsg(error)
+      props.setErrorMsg(error.graphQLErrors[0].message);
     },
+    refetchQueries: [{ query: ALL_BOOKS }],
     update: (cache, response) => {
-      cache.updateQuery({ query: ALL_BOOKS }, ({ allBooks }) => {
+      cache.updateQuery({ query: ALL_AUTHORS }, (data) => {
+        console.log("data", data);
+        const foundAuthor = data.allAuthors.find(
+          (author) => author.id === response.data.addBook.author.id
+        );
         return {
-          allBooks: allBooks.concat(response.data.allBooks),
-        }
-      })
+          allAuthors: foundAuthor
+            ? data.allAuthors.map((author) =>
+                author.id === response.data.addBook.author.id
+                  ? response.data.addBook.author
+                  : author
+              )
+            : data.allAuthors.concat(response.data.addBook.author),
+        };
+      });
     },
   });
 
@@ -30,7 +41,7 @@ const NewBook = (props) => {
   const submit = async (event) => {
     event.preventDefault();
 
-    createBook({
+    await createBook({
       variables: {
         title,
         author,
@@ -90,7 +101,6 @@ const NewBook = (props) => {
       </form>
 
       <SetBirthYear />
-      
     </div>
   );
 };
