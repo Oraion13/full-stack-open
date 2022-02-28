@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { ADD_BOOK, ALL_CACHE } from "../queries";
 import { useMutation } from "@apollo/client";
 import SetBirthYear from "./setBirthYear";
+import { updateCache } from "../App";
 
 const NewBook = (props) => {
   const [title, setTitle] = useState("");
@@ -15,25 +16,33 @@ const NewBook = (props) => {
       console.error(error);
     },
     update: (cache, response) => {
-      cache.updateQuery(
+      console.log("Im cache");
+      console.log("response", response);
+      updateCache(
+        cache,
         { query: ALL_CACHE, variables: { genre: "" } },
-        (data) => {
-          const foundAuthor = data.allAuthors.find(
-            (author) => author.id === response.data.addBook.author.id
-          );
-
-          return {
-            allAuthors: foundAuthor
-              ? data.allAuthors.map((author) =>
-                  author.id === response.data.addBook.author.id
-                    ? response.data.addBook.author
-                    : author
-                )
-              : data.allAuthors.concat(response.data.addBook.author),
-            allBooks: data.allBooks.concat(response.data.addBook)
-          };
-        }
+        response.data.addBook
       );
+
+      // cache.updateQuery(
+      //   { query: ALL_CACHE, variables: { genre: "" } },
+      //   (data) => {
+      //     const foundAuthor = data.allAuthors.find(
+      //       (author) => author.id === response.data.addBook.author.id
+      //     );
+
+      //     return {
+      //       allAuthors: foundAuthor
+      //         ? data.allAuthors.map((author) =>
+      //             author.id === response.data.addBook.author.id
+      //               ? response.data.addBook.author
+      //               : author
+      //           )
+      //         : data.allAuthors.concat(response.data.addBook.author),
+      //       allBooks: data.allBooks.concat(response.data.addBook)
+      //     };
+      //   }
+      // );
     },
 
   });

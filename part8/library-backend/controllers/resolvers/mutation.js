@@ -1,10 +1,14 @@
 require("dotenv").config();
 const brcypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 const { UserInputError } = require("apollo-server");
+const { pubsub } = require("../subscription");
+
 const Book = require("../../models/book");
 const Author = require("../../models/author");
 const User = require("../../models/User");
-const jwt = require("jsonwebtoken");
+
 
 const Mutation = {
   addBook: async (root, args, context) => {
@@ -47,7 +51,11 @@ const Mutation = {
     await User.findByIdAndUpdate(currentUser.id, currentUser)
     await Author.findByIdAndUpdate(savedAuthor._id, savedAuthor)
 
-    return await Book.findById(savedBook._id);
+    const newBook = await Book.findById(savedBook._id);
+
+    pubsub.publish("BOOK_ADDED", { bookAdded: newBook })
+
+    return newBook;
   },
 
   editAuthor: async (root, args, context) => {

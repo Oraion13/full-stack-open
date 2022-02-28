@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ALL_BOOKS, ME } from "../queries";
 import { useQuery } from "@apollo/client";
 
 const Recommend = (props) => {
-  const user = useQuery(ME);
+  const me = useQuery(ME);
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+    if(!me.loading){
+      setUser(me.data.me);
+    }
+  }, [me.loading]) // eslint-disable-line
   
   const [genre, setGenre] = useState("")
   const books = useQuery(ALL_BOOKS, {
@@ -26,15 +33,16 @@ const Recommend = (props) => {
 
   const search = (e) => {
     e.preventDefault();
-    setGenre(user.data.me ? user.data.me.favoriteGenre : "")
+    setGenre(user ? user.favoriteGenre : "")
   }
 
   return (
     <div>
       <h2>books</h2>
+      <button className="recommended" onClick={search}>recommended</button>
       <p>
         books in your favourite genre{" "}
-        <b>{user.data.me ? user.data.me.favoriteGenre : ""}</b>
+        <b>{user ? user.favoriteGenre : ""}</b>
       </p>
       <table>
         <tbody>
@@ -52,7 +60,6 @@ const Recommend = (props) => {
           ))}
         </tbody>
       </table>
-      <button className="recommended" onClick={search}>recommended</button>
     </div>
   );
 };

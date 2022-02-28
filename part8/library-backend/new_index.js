@@ -1,9 +1,10 @@
 require("dotenv").config();
-const { ApolloServer } = require("apollo-server");
+
 const mongoose = require("mongoose");
-const typeDefs = require("./controllers/typedefs");
-const resolvers = require("./controllers/resolvers");
-const context = require("./controllers/context");
+
+const server = require("./servers/server")
+const { httpServer } = require("./servers/httpServer")
+const { app } = require("./servers/httpServer")
 
 console.log("Connecting to MongoDB");
 
@@ -16,12 +17,18 @@ mongoose
     console.error("Error connecting to DB", error);
   });
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context,
-});
+const start = async () => {
 
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
-});
+  await server.start();
+
+  server.applyMiddleware({
+    app,
+    path: "/",
+  });
+
+  httpServer.listen(process.env.PORT, () => {
+    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}`);
+  });
+};
+
+start();
