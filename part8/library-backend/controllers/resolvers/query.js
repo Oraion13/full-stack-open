@@ -1,16 +1,13 @@
-const author = require("../../models/author");
 const Author = require("../../models/author");
 const Book = require("../../models/book");
 const User = require("../../models/User");
 
 const Query = {
   allAuthors: async () => {
-    console.log("AUthor.find");
     return await Author.find({});
   },
 
   allBooks: async (root, args) => {
-    console.log("Book.find");
     const authorID =
       args.hasOwnProperty("author") && args["author"].length > 0
         ? await Author.find({ name: args.author })

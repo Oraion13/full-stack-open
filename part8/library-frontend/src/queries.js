@@ -25,6 +25,23 @@ const BOOK_DETAILS = gql`
   }
 `;
 
+const FOR_CACHE_AUTH_BOOK = gql`
+fragment CacheData on Book {
+  title
+      author {
+        ...AuthorDetails
+      }
+      published
+      genres
+      id
+      user {
+        username
+        id
+      }
+}
+${AUTHOR_DETAILS}
+`
+
 export const ALL_AUTHORS = gql`
   query {
     allAuthors {
@@ -111,3 +128,12 @@ export const ALL_CACHE = gql`
   ${BOOK_DETAILS}
   ${AUTHOR_DETAILS}
 `;
+
+export const BOOK_ADDED = gql`
+subscription {
+  bookAdded {
+    ...CacheData
+  }
+}
+${FOR_CACHE_AUTH_BOOK}
+`
