@@ -35,6 +35,7 @@ const NewBook = (props) => {
         }
       );
     },
+
   });
 
   if (!props.show) {
