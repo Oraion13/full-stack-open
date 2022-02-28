@@ -9,8 +9,24 @@ const SetBirthYear = () => {
   const [author, setAuthor] = useState(null);
   const [born, setBorn] = useState(0);
 
-  const [editAuthor] = useMutation(EDIT_AUTHOR, {
-    refetchQueries: [{ query: ALL_AUTHORS }],
+  const [editAuthor] = useMutation(EDIT_AUTHOR,  {
+    onError: (error) => {
+      console.error(error);
+    },
+    update: (cache, response) => {
+      cache.updateQuery({ query: ALL_AUTHORS }, (data) => {
+        console.log("data", data);
+        console.log("response", response);
+
+        return {
+          allAuthors: data.allAuthors.map((author) =>
+                author.id === response.data.editAuthor.id
+                  ? response.data.editAuthor
+                  : author
+              )
+        };
+      });
+    },
   });
 
   const submit = (e) => {
